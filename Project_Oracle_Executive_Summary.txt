@@ -1,0 +1,155 @@
+PROJECT ORACLE: EXECUTIVE SUMMARY
+Dante Labs — AI Integration for TradingView
+Prepared: June 11, 2026 | Confidential — Board Review Only
+================================================================================
+
+1. THE STRATEGIC PROBLEM
+================================================================================
+"Charts are becoming a commodity."
+
+The retail and institutional trading landscapes are shifting toward massive
+automation. TradingView dominates charting but lacks cognitive intelligence
+- the ability to generate strategies from natural language, detect patterns
+visually, and provide real-time sentiment awareness.
+
+Current gap: Users must learn Pine Script manually, identify patterns with
+their eyes, and switch between tools for sentiment data.
+
+Opportunity: Dante Labs can move from descriptive charting to systematic
+cognitive intelligence - creating a proprietary, high-margin AI tier that
+increases stickiness and subscription value.
+
+
+2. THE SOLUTION: PROJECT ORACLE
+================================================================================
+A multimodal AI layer embedded directly into TradingView's visual engine,
+consisting of two core AI models working in parallel:
+
+COMPONENT 1: LANGUAGE (PineCoder-70B)
+- Model: Llama-3-70B (4-bit quantized)
+- Training: 120,000 Pine Script v5 examples + official documentation
+- Fine-tuning: LoRA on NVIDIA H100 clusters
+- Function: Converts plain English into executable Pine Script v5 code
+
+COMPONENT 2: VISION (ChartTopology-V1)
+- Model: CNN + Vision Transformer
+- Function: Interprets chart pixels to detect patterns
+- Patterns detected: Head & Shoulders, Wyckoff, Elliott Waves, S/R zones
+- Output: JSON coordinates + confidence score (0.0 to 1.0)
+
+USER OUTCOMES:
+- Describe entry rules in English -> AI generates backtested strategy instantly
+- Chart automatically labeled with pattern boundaries
+- Real-time sentiment index (Bearish/Bullish) from X, Discord, and News
+- One-click deploy to broker connection
+
+
+3. CRITICAL PERFORMANCE TARGETS
+================================================================================
+Metric                                   Target         Method
+---------------------------------------  -------------  ----------------------------
+Script syntactic correctness             95%            Automated Pine Linter
+Pattern recognition F1-score             0.88           Historical backtesting
+LLM inference speed                      <300ms         ONNX/TensorRT + Redis
+End-to-end signal latency                <250ms         WebSocket -> UI
+False positive rate (vision)             <15%           Verified detection
+Concurrent connections                   10,000/node    Kubernetes auto-scaling
+
+
+4. HOW IT WORKS: ARCHITECTURE
+================================================================================
+[Binance/CME] --WebSocket--> [Ingestion Gate]
+                                  |
+                                  v
+[User Chat/View] ------gRPC----> [DANTE ORACLE CORE]
+                                  |              |
+                                  v              v
+                          [LLM Inference]  [Vision AI]
+                           (PineCoder-70B) (ChartTopology)
+                                  |              |
+                                  v              v
+                          [Signal Aggregator] <--+
+                                  |
+                                  v
+                  [TradingView Chart UI] --UDF/Canvas-->
+
+STACK:
+- Language: Golang (streaming) + Python (inference)
+- Message Broker: Apache Kafka
+- Database: ClickHouse (time-series for backtesting)
+- Orchestration: Kubernetes on AWS/GCP with GPU auto-scaling
+- Inference Server: NVIDIA Triton with TensorRT optimization
+
+INTEGRATION WITH TRADINGVIEW:
+- Universal Data Feed (UDF) for real-time signals
+- Canvas API for AI overlays (confidence bands, price paths)
+- Webhooks for one-click broker deployment
+- React-based side panel embedded via TradingView's widget API
+
+
+5. FUNCTIONAL REQUIREMENTS (TOP 5)
+================================================================================
+ID    Requirement                                      Priority
+----  -----------------------------------------------  --------
+FR-01 AI Side-Panel UI (React drawer)                  P0
+FR-02 Natural Language -> Pine Script v5               P0
+FR-03 Visual pattern labeling on active chart          P1
+FR-05 "One-Click Deploy" to broker connection          P1
+FR-04 Real-time sentiment index (X, Discord, News)     P2
+
+
+6. SUCCESS KPIs (POST-LAUNCH)
+================================================================================
+Metric                                    Target
+----------------------------------------  ----------
+MAU Growth                                +25% within 3 months
+Time on chart per session                 +40%
+User script error support tickets         -60%
+Conversion to Premium AI tier             15%
+
+
+7. RISKS & MITIGATIONS
+================================================================================
+Risk                                      Impact  Mitigation
+----------------------------------------  ------  ----------------------------------
+Hallucinated / invalid Pine Scripts       High    Linter/validator before presenting
+                                                   code to user
+High inference cost (GPU)                 Medium  4-bit quantization + rate limiting
+                                                   (60 req/min/user)
+Data latency for real-time signals        High    WebSocket feeds + local inference
+                                                   for vision
+Cross-user "alpha leakage"                High    Differential privacy - user
+                                                   strategies never retrain global
+                                                   model
+
+
+8. RESOURCE REQUIREMENTS
+================================================================================
+Role                    Count   Focus
+----------------------  ------  ------------------------------------------------
+ML Engineer             2       LLM fine-tuning, vision model training
+Fullstack Developer     2       TradingView integration, React side panel UI
+Backend Engineer        1       High-frequency streaming pipeline (Go/Rust)
+
+TIMELINE: 12 weeks (3 phases)
+- Weeks 1-4:  Data pipeline + baseline PineCoder training
+- Weeks 5-8:  Beta integration with TradingView Advanced Charts
+- Weeks 9-12: Vision model deployment + stress testing
+
+TARGET LAUNCH: Q3-Q4 2026
+
+
+9. STRATEGIC BOTTOM LINE
+================================================================================
+"We have reached a point where charts are becoming a commodity. Project Oracle
+is our path to maintaining a dominant, high-margin competitive edge."
+
+— Zachary Neipp, AI Innovation Lead, Dante Labs
+
+THE ASK: Approval to allocate resources for Phase 1 feasibility study
+         (next quarter).
+
+
+================================================================================
+END OF SUMMARY
+================================================================================
